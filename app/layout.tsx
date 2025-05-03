@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { GeistMono } from "geist/font/mono";
+import { ThemeProvider } from "@/components/theme-provider";
+import { SessionProvider } from "next-auth/react";
 
-// Update your font declarations
-// const geistSans = GeistSans;
 const geistMono = GeistMono;
 
 export const metadata: Metadata = {
@@ -19,8 +19,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={` ${geistMono.variable} antialiased`}
-      >{children}</body>
+        className={` ${geistMono.variable} antialiased`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <SessionProvider>
+            {children}
+          </SessionProvider>
+        </ThemeProvider>
+
+      </body>
     </html>
   );
 }
