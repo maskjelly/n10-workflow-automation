@@ -1,24 +1,25 @@
 "use server"
 
+import { auth } from "@/auth"
 import { prisma } from "@/lib/prisma"
 import { getSession } from "next-auth/react"
 import { redirect } from "next/navigation"
 
 export async function GetWorkflowsForUsers() {
-    const session = await getSession()
+    const session = await auth()
 
-    const userId = session?.user?.id;
-
-    if (!session) {
+    if (!session?.user) {
         redirect("/signin")
     }
 
-    return prisma.Workflow.findMany({
+    const userId = session.user.id;
+    console.log(userId)
+    return prisma.workflow.findMany({
         where: {
             userId,
         },
         orderBy: {
-            createdAt :"asc"
+            createdAt: "asc"
         }
     })
 

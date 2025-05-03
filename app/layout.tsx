@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { GeistMono } from "geist/font/mono";
-import { ThemeProvider } from "@/components/theme-provider";
 import { SessionProvider } from "next-auth/react";
+import { AppProviders } from "@/components/providers/AppProviders";
 
 const geistMono = GeistMono;
 
@@ -20,16 +20,11 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={` ${geistMono.variable} antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <AppProviders>
           <SessionProvider>
             {children}
           </SessionProvider>
-        </ThemeProvider>
+        </AppProviders>
 
       </body>
     </html>
